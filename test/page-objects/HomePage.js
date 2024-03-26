@@ -1,8 +1,9 @@
+//@ts-check
 
 import { expect } from "@playwright/test";
 
 
-exports.HomePage = class HomePage {
+export class HomePage {
   /**
    * @param {import('@playwright/test').Page} page
    */

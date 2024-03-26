@@ -1,3 +1,5 @@
+//@ts-check
+
 import { test } from "@playwright/test";
 import { HomePage } from "./page-objects/HomePage"
 
@@ -5,8 +7,8 @@ test.describe("test home page", () => {
     let homePage;
 
     test.beforeEach(async ({ page }) => {
-        await page.goto("https://bookcart.azurewebsites.net/");
         homePage = new HomePage(page);
+        await page.goto("https://bookcart.azurewebsites.net/");
     });
 
     test("verify URL", async () => {
