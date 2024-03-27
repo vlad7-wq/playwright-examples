@@ -9,13 +9,20 @@ test.describe("test home page", () => {
     test.beforeEach(async ({ page }) => {
         homePage = new HomePage(page);
         await page.goto("https://bookcart.azurewebsites.net/");
-    });
-
-    test("verify URL", async () => {
-        await homePage.verifyUrl();
+        await page.waitForLoadState();
     })
 
-    test("verify title", async () => {
+    test("verify URL and title of home page", async () => {
+        await homePage.verifyUrl();
         await homePage.verifyTitle();
-    });
-});
+    })
+
+    test("verify search", async () => {
+        await test.step("search for any book by title", async () => {
+            await homePage.searchBook("harry");
+            await homePage.verifySearchResult("Harry");
+        })
+    })
+
+
+})
