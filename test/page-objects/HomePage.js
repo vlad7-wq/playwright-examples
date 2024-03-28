@@ -2,7 +2,6 @@
 
 import { expect } from "@playwright/test";
 
-
 export class HomePage {
 
   /**
@@ -16,10 +15,16 @@ export class HomePage {
         this.cartBtn = page.locator("button.mdc-icon-button.mat-mdc-icon-button");
         this.loginBtn = page.locator("button[mattooltip='Login']");
         this.allCategoriesFilter = page.getByText("All Categories");
-        this.biographyCategoryFilter = page.getByText("Biography");
-        this.romanceCategoryFilter = page.getByText("Romance");
-        this.selectContentFirstResult = page.locator("div.p-1.ng-star-inserted");
+        this.biographyCategoryFilter = page.locator("//a[contains(text(),'Biography')]");
+        this.romanceCategoryFilter = page.locator("//a[contains(text(),'Romance')]");
+        this.selectContentFirstResult = page.locator("(//div[@class='p-1 ng-star-inserted'])[1]");
         this.titleOfContentFirstResult = page.locator("div[class='card-title my-2'] a strong");
+        this.searchFieldAutoSuggestion = page.locator("(//span[@class='mdc-list-item__primary-text'])");
+    }
+
+    async verifyCleanSearchField() {
+        await this.searchField.clear();
+        await expect(this.searchField).toBeEmpty();
     }
 
     async verifyTitle() {
@@ -35,10 +40,12 @@ export class HomePage {
         await this.page.keyboard.press("ArrowDown")
         await this.page.keyboard.press("Enter");
     }
+    
 
     async verifySearchAutosuggestOptions(bookTitle) {
+        await this.searchField.fill(bookTitle);
         let titles = await this.searchAutosuggestOptions.allTextContents();
-        for (let title in titles) {
+        for (let title of titles) {
             expect(title).toContain(bookTitle);
         }
     }
@@ -47,14 +54,13 @@ export class HomePage {
         await this.cartBtn.click();
     }
 
-    async chooseCategory(category) {
-        if  (category.toLowerCase() === "all") {
-            await this.allCategoriesFilter.click();
-        } else if (category.toLowerCase() === "biography") {
+    async selectCategory(category) {
+        if (category === "Biography") {
             await this.biographyCategoryFilter.click();
-        } else if (category.toLowerCase() === "romance") {
+        } else if (category === "Romance") {
             await this.romanceCategoryFilter.click();
         }
+        await this.selectContentFirstResult.click();
     }
 
     async verifySearchResult(title) {
