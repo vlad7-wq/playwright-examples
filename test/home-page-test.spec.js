@@ -1,6 +1,6 @@
 //@ts-check
 
-import { test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { HomePage } from "./page-objects/HomePage"
 import { BookDetailsPage } from "./page-objects/BookDetailsPage";
 
@@ -34,9 +34,14 @@ test.describe("test home page", () => {
         await homePage.verifyCleanSearchField();
     })
 
-    test("verify filter by category", async () => {
-        await homePage.selectCategory("Romance");
-        await bookPage.verifyBookCategory("Romance");
+    test("verify filtering by category", async () => {
+        let randomCategory = await homePage.getRandomCategory();
+        await homePage.selectCategory(randomCategory);
+        await bookPage.verifyBookCategory(randomCategory);
+    })
+
+    test("verify filtering by price", async () => {
+        await homePage.verifyFilteringByPrice();
     })
 
 })
