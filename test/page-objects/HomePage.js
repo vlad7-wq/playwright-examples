@@ -28,6 +28,10 @@ export class HomePage {
         this.maxPriceValue = page.locator("(//div[@class='d-flex justify-content-between']//strong)[2]");
     }
 
+    async clickOnFirstSearchResult() {
+        await this.selectContentFirstResult.click();
+    }
+
     async verifyFilteringByPrice() {
         await this.priceFilterSlider.dragTo(this.priceFilterSlider, {targetPosition: {x: 10, y: 0}});
         expect(await this.maxPriceValue.textContent()).toEqual(await this.priceOfContentFirstResult.textContent())
@@ -90,7 +94,7 @@ export class HomePage {
                 break;
         }
 
-        await this.selectContentFirstResult.click();
+        this.clickOnFirstSearchResult();
     }
 
     async verifySearchResult(title) {

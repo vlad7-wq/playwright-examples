@@ -1,6 +1,6 @@
 //@ts-check
 
-import { expect, test } from "@playwright/test";
+import { test } from "@playwright/test";
 import { HomePage } from "./page-objects/HomePage"
 import { BookDetailsPage } from "./page-objects/BookDetailsPage";
 
