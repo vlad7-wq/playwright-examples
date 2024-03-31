@@ -21,15 +21,16 @@ export class BookDetailsPage {
         
       }
 
-      async verifyBookDetailsContent() {
-        const expectedContent = ["Title", "Author", "Category", "Price"];
-        expect(expectedContent).toEqual(await this.bookDetailsContent.allTextContents());
+      async getBookDetailsContent() {
+        return this.bookDetailsContent.allTextContents();
       }
 
-      async verifyBookDetailsImage() {
-        let src = await this.bookImage.getAttribute("src");
-        let resp = await this.page.request.get(`https://bookcart.azurewebsites.net/${src}`);
-        expect(resp.status()).toBe(200);
+      async getBookDetailsMainImage() {
+        return this.bookImage;
+      }
+
+      async getBookDetailsMainImageSrc() {
+        return this.bookImage.getAttribute("src");
       }
 
       async verifyBookCategory(category) {
