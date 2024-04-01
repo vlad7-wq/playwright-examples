@@ -1,7 +1,5 @@
 //@ts-check
 
-import { expect } from "@playwright/test";
-
 export class HomePage {
 
   /**
@@ -26,28 +24,23 @@ export class HomePage {
         this.searchFieldAutoSuggestion = page.locator("(//span[@class='mdc-list-item__primary-text'])");
         this.priceFilterSlider = page.locator("input[type='range']");
         this.maxPriceValue = page.locator("(//div[@class='d-flex justify-content-between']//strong)[2]");
+        this.addToCartBtn = page.getByText(" Add to Cart")
+    }
+
+    async clickOnAddToCartBtn() {
+        await this.addToCartBtn.click();
     }
 
     async clickOnFirstSearchResult() {
         await this.selectContentFirstResult.click();
     }
 
-    async verifyFilteringByPrice() {
+    async dragFilterByPrice() {
         await this.priceFilterSlider.dragTo(this.priceFilterSlider, {targetPosition: {x: 10, y: 0}});
-        expect(await this.maxPriceValue.textContent()).toEqual(await this.priceOfContentFirstResult.textContent())
     }
 
-    async verifyCleanSearchField() {
+    async cleanSearchField() {
         await this.searchField.clear();
-        await expect(this.searchField).toBeEmpty();
-    }
-
-    async verifyTitle() {
-        await expect(this.page).toHaveTitle("BookCart");
-    }
-
-    async verifyUrl() {
-        await expect(this.page).toHaveURL("https://bookcart.azurewebsites.net/");
     }
 
     async searchBook(title) {
@@ -57,12 +50,9 @@ export class HomePage {
     }
     
 
-    async verifySearchAutosuggestOptions(bookTitle) {
+    async getSearchAutosuggestOptions(bookTitle) {
         await this.searchField.fill(bookTitle);
-        let titles = await this.searchAutosuggestOptions.allTextContents();
-        for (let title of titles) {
-            expect(title).toContain(bookTitle);
-        }
+        return await this.searchAutosuggestOptions.allTextContents();
     }
 
     async clickOnCartBtn() {
@@ -95,11 +85,6 @@ export class HomePage {
         }
 
         this.clickOnFirstSearchResult();
-    }
-
-    async verifySearchResult(title) {
-        await expect(this.selectContentFirstResult).toBeVisible();
-        await expect(this.titleOfContentFirstResult).toContainText(title);
     }
 
 }

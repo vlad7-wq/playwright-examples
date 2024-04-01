@@ -18,4 +18,20 @@ export class CartPage {
         this.checkoutBtn = page.getByText(" CheckOut ");
     }
 
+    async clickOnIncreaseBtn() {
+        await this.increaseQuantityBtn.click();
+    }
+
+    async clickOnDecreaseBtn() {
+        await this.decreaseQuantityBtn.click();
+    }
+
+    async clickOnBinBtn() {
+        await this.binBtn.click();
+    }
+
+    async clickOnCheckoutBtn() {
+        await this.checkoutBtn.click();
+    }
+
 }

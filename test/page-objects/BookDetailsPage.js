@@ -1,7 +1,5 @@
 //@ts-check
 
-import { expect } from "@playwright/test";
-
 export class BookDetailsPage {
 
       /**
@@ -25,16 +23,12 @@ export class BookDetailsPage {
         return this.bookDetailsContent.allTextContents();
       }
 
-      async getBookDetailsMainImage() {
-        return this.bookImage;
-      }
-
       async getBookDetailsMainImageSrc() {
         return this.bookImage.getAttribute("src");
       }
 
-      async verifyBookCategory(category) {
-        await expect(this.bookCategory).toHaveText(category);
+      async getBookCategory() {
+        return this.bookCategory.textContent();
       }
 
 }
