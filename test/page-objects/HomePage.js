@@ -47,6 +47,7 @@ export class HomePage {
         await this.searchField.fill(title);
         await this.page.keyboard.press("ArrowDown")
         await this.page.keyboard.press("Enter");
+        await this.page.waitForLoadState("domcontentloaded");
     }
     
 
