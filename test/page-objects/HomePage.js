@@ -24,11 +24,13 @@ export class HomePage {
         this.searchFieldAutoSuggestion = page.locator("(//span[@class='mdc-list-item__primary-text'])");
         this.priceFilterSlider = page.locator("input[type='range']");
         this.maxPriceValue = page.locator("(//div[@class='d-flex justify-content-between']//strong)[2]");
-        this.addToCartBtn = page.getByText(" Add to Cart")
+        this.addToCartBtn = page.locator("(//span[normalize-space()='Add to Cart'])[1]");
+        this.itemAddedToCartPopup = page.locator(".mat-mdc-snack-bar-label.mdc-snackbar__label");
     }
 
     async clickOnAddToCartBtn() {
         await this.addToCartBtn.click();
+        await this.page.waitForTimeout(1000);
     }
 
     async clickOnFirstSearchResult() {
@@ -47,7 +49,6 @@ export class HomePage {
         await this.searchField.fill(title);
         await this.page.keyboard.press("ArrowDown")
         await this.page.keyboard.press("Enter");
-        await this.page.waitForLoadState("domcontentloaded");
     }
     
 
