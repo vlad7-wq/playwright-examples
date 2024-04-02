@@ -11,11 +11,10 @@ test.describe("test cart page", () => {
     test.beforeEach( async ({ page }) => {
         cartPage = new CartPage(page);
         homePage = new HomePage(page);
-        await page.goto("https://bookcart.azurewebsites.net/");
-        await page.waitForLoadState();
+        await page.goto("https://bookcart.azurewebsites.net/", { timeout : 20000} );
         await homePage.searchBook("Slayer");
         await homePage.clickOnAddToCartBtn();
-        await homePage.clickOnCartBtn();
+        await homePage.clickOnCartBtn()
     })
 
     test("verify that added book is present in cart", async () => {
@@ -23,37 +22,36 @@ test.describe("test cart page", () => {
         await expect(cartPage.bookTitle).toContainText("Slayer")
     })
 
-    test("verify that by click on plus button quantity is increased by one", async () => {
+    test("verify that by click on plus/minus button quantity is updated properly", async () => {
         await cartPage.clickOnIncreaseBtn();
+        await expect(cartPage.addItemPopup).toBeVisible();
         await expect(cartPage.quantity).toHaveText("2");
-        await expect(cartPage.addItemPopup).toBeVisible()
-    })
-
-    test("verify that by click on minus button quantity is decreased by one", async () => {
-        await cartPage.clickOnIncreaseBtn();
         await cartPage.clickOnDecreaseBtn();
-        await expect(cartPage.quantity).toHaveText("1");
         await expect(cartPage.removeItemPopup).toBeVisible();
+        await expect(cartPage.quantity).toHaveText("1");
     })
 
     test("verify that by changing quantity the total price is updated", async () => {
         await cartPage.clickOnIncreaseBtn();
+        await expect(cartPage.addItemPopup).toBeVisible();
+        await expect(cartPage.quantity).toHaveText("2");
         let totalPrice = await cartPage.totalPrice.textContent();
-        expect(totalPrice).toBe(" ₹1,234.00 ");
+        expect(totalPrice).toBe(" ₹2,468.00 ");
     })
 
-    test("verify that by clicking on 'bin' button the book is removed", async () => {
+    test("verify that by clicking on bin button the book is removed", async () => {
         await cartPage.clickOnBinBtn();
         await expect(cartPage.deleteProductPopup).toBeVisible();
         await expect(cartPage.cartBody).not.toBeVisible();
     })
 
-    test("verify that if cart contains several books the total cart price updated properly", async () => {
+    test("verify that if cart contains several books the total cart price updated properly", async ({page}) => {
         await homePage.searchBook("Rot");
         await homePage.clickOnAddToCartBtn();
         await homePage.clickOnCartBtn();
         await expect(cartPage.eachItemInCartBody).toHaveCount(2);
-        expect(cartPage.totalCartPrice).toBe("₹1,357.00");
+        let totalCartPrice = await cartPage.totalCartPrice.textContent();
+        expect(totalCartPrice).toBe("₹1,357.00");
     })
 
 })
