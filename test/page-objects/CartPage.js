@@ -17,8 +17,8 @@ export class CartPage {
         this.totalPrice = page.locator("tbody[role='rowgroup'] > tr > td:nth-child(5)");
         this.binBtn = page.locator("button[mattooltip='Delete item']");
         this.checkoutBtn = page.getByText(" CheckOut ");
-        this.removeItemPopup = page.getByText(" One item removed from cart");
-        this.addItemPopup = page.getByText(" One item added from cart");
+        this.removeItemPopup = page.getByText(" One item removed from cart ");
+        this.addItemPopup = page.getByText(" One item added to cart ");
         this.deleteProductPopup = page.getByText(" Product removed from cart ");
         this.totalCartPrice = page.locator("td:nth-child(5) strong:nth-child(1)");
     }
