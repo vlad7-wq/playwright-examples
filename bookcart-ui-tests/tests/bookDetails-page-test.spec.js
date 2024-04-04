@@ -1,8 +1,8 @@
 //@ts-check
 
 import { test, expect } from "@playwright/test";
-import { BookDetailsPage } from "./page-objects/BookDetailsPage";
-import { HomePage } from "./page-objects/HomePage";
+import { BookDetailsPage } from "../page-objects/BookDetailsPage";
+import { HomePage } from "../page-objects/HomePage";
 
 test.describe("verify book details page", () => {
     let bookPage;
@@ -15,7 +15,7 @@ test.describe("verify book details page", () => {
         await page.waitForLoadState();
     })
 
-    test("verify that book details page contains all required information", async () => {
+    test("verify that book details page contains all required information", {tag: "@smoke"}, async () => {
         await homePage.clickOnFirstSearchResult();
         const expectedContent = ["Title", "Author", "Category", "Price"];
         expect(expectedContent).toEqual(await bookPage.getBookDetailsContent());

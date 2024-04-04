@@ -1,15 +1,15 @@
 //@ts-check
 
 import { test, expect } from "@playwright/test";
-import { CheckOutPage } from "./page-objects/CheckoutPage";
-import { LoginPage } from "./page-objects/LoginPage";
-import { HomePage } from "./page-objects/HomePage";
-import { CartPage } from "./page-objects/CartPage";
-import { OrdersPage } from "./page-objects/OrdersPage";
-import { getCurrentDate } from "./page-objects/date-formatter";
-import { shippingTestData, testUserCreds } from "./page-objects/test-data";
+import { CheckOutPage } from "../page-objects/CheckoutPage";
+import { LoginPage } from "../page-objects/LoginPage";
+import { HomePage } from "../page-objects/HomePage";
+import { CartPage } from "../page-objects/CartPage";
+import { OrdersPage } from "../page-objects/OrdersPage";
+import { getCurrentDate } from "../utils/date-formatter";
+import { shippingTestData, testUserCreds } from "../test-data/test-data";
 
-test.describe("example of e2e test", () => {
+test.describe("example of e2e test", {tag: "@e2e"}, () => {
     let homePage;
     let cartPage;
     let loginPage;
@@ -25,11 +25,13 @@ test.describe("example of e2e test", () => {
         checkoutPage = new CheckOutPage(page);
         ordersPage = new OrdersPage(page);
         
-        await page.goto("https://bookcart.azurewebsites.net/", { timeout : 20000} );
-        
+        await page.goto("https://bookcart.azurewebsites.net/", {timeout : 20000} );
     })
 
-    test("e2e test happy path", async ({ page }) => {
+    test("e2e test happy path", {annotation: {
+        type: "task",
+        description: "link to task"
+    }}, async ({ page }) => {
         let totalPrice;
 
         await test.step("search for a book", async () => {

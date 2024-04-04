@@ -1,8 +1,8 @@
 //@ts-check
 
 import { expect, test } from "@playwright/test";
-import { HomePage } from "./page-objects/HomePage"
-import { BookDetailsPage } from "./page-objects/BookDetailsPage";
+import { HomePage } from "../page-objects/HomePage"
+import { BookDetailsPage } from "../page-objects/BookDetailsPage";
 
 test.describe("test home page", () => {
     let homePage;
@@ -16,12 +16,12 @@ test.describe("test home page", () => {
         await page.waitForLoadState();
     })
 
-    test("verify URL and title of home page", async ({ page }) => {
+    test("verify URL and title of home page", {tag: "@smoke"}, async ({ page }) => {
         await expect(page).toHaveURL(baseURL);
         await expect(page).toHaveTitle("BookCart");
     })
 
-    test("verify that search result contains book that was specified by user", async ({ page }) => {
+    test("verify that search result contains book that was specified by user", {tag: "@regression, @smoke"}, async ({ page }) => {
         await homePage.searchBook("Martian");
         await page.waitForLoadState();
         await expect(homePage.selectContentFirstResult).toBeVisible();

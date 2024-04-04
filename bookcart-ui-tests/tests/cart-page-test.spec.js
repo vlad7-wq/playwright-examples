@@ -1,8 +1,8 @@
 //@ts-check
 
 import { test, expect } from "@playwright/test";
-import { CartPage } from "./page-objects/CartPage";
-import { HomePage } from "./page-objects/HomePage";
+import { CartPage } from "../page-objects/CartPage";
+import { HomePage } from "../page-objects/HomePage";
 
 test.describe("test cart page", () => {
     let cartPage;
@@ -17,7 +17,7 @@ test.describe("test cart page", () => {
         await homePage.clickOnCartBtn()
     })
 
-    test("verify that added book is present in cart", async () => {
+    test("verify that added book is present in cart", {tag: "@smoke, @regression"}, async () => {
         await expect(cartPage.cartBody).toBeVisible();
         await expect(cartPage.bookTitle).toContainText("Slayer")
     })
