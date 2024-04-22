@@ -6,7 +6,11 @@
   "type": "module",
   "scripts": {
     "test:smoke": "playwright test --config=playwright.config.js --grep @smoke --project=chromium",
-    "test:regression": "npx playwright test --config=playwright.config.js --grep @regression --project=chromium"
+    "test:regression": "playwright test --config=playwright.config.js --grep @regression --project=chromium",
+    "test:all": "playwright test --config=playwright.config.js",
+    "test:parallel": "playwright test --config=playwright.config.js --workers 4",
+    "test:smoke:report": "playwright test --config=playwright.config.js --reporter=html --grep @smoke --project=chromium",
+    "test:api": "playwright test api-test.spec.ts --config=playwright.config.ts --project=chromium"
   },
   "keywords": [],
   "author": "",
