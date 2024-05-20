@@ -2,6 +2,8 @@ name: manual-trigger-example
 on: 
   workflow_dispatch:
 jobs:
-  runs-on: ubuntu-latest
-  steps: 
-    - run: npm run test:api
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: run api test
+        run: npm run test:api
